@@ -6,6 +6,7 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 const Register_Page = () => {
   const [user, setUser] = useState({
     username: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -21,6 +22,15 @@ const Register_Page = () => {
             name='username'
             value={user.username}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input
+            type='email'
+            name='email'
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
         <div>

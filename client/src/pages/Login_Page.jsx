@@ -5,7 +5,7 @@ import PrimaryButton from "../components/ui/PrimaryButton";
 
 const Login_Page = () => {
   const [user, setUser] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   return (
@@ -13,12 +13,12 @@ const Login_Page = () => {
       <h1>Login Page</h1>
       <form action=''>
         <div>
-          <label>Username:</label>
+          <label>Email:</label>
           <input
-            type='text'
-            name='username'
-            value={user.username}
-            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            type='email'
+            name='email'
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
         <div>
