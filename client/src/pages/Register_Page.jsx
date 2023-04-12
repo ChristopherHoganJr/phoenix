@@ -30,11 +30,12 @@ const Register_Page = () => {
   };
 
   return (
-    <div>
-      <h1>Register Page</h1>
-      <form action=''>
-        <div>
-          {errors ? <p>{errors}</p> : <></>}
+    <section className='pt-5 px-4 flex flex-col gap-4'>
+      <h1 className='text-center'>Become a member</h1>
+      <img src='/imgs/registerImg.jpg' alt='' />
+      <form action='' className='flex flex-col gap-4'>
+        {errors ? <p>{errors}</p> : <></>}
+        <div class='flex flex-col'>
           <label>Username:</label>
           <input
             type='text'
@@ -43,7 +44,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, username: e.target.value })}
           />
         </div>
-        <div>
+        <div class='flex flex-col'>
           <label>Email:</label>
           <input
             type='email'
@@ -52,7 +53,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
-        <div>
+        <div class='flex flex-col'>
           <label>Password:</label>
           <input
             type='password'
@@ -61,7 +62,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
         </div>
-        <div>
+        <div class='flex flex-col'>
           <label>Confirm Password:</label>
           <input
             type='password'
@@ -74,7 +75,7 @@ const Register_Page = () => {
         </div>
         <SubmitButton title='Sign up!' submitFunction={RegisterUser} />
       </form>
-    </div>
+    </section>
   );
 };
 
