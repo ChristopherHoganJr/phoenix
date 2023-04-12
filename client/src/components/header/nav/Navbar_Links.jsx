@@ -3,16 +3,17 @@ import { UserContext } from "../../../contexts/UserContext";
 
 // component
 import Navbar_Links_Link from "./Navbar_Links_Link";
+import LogoutButton from "../../ui/LogoutButton";
 
 const Navbar_Links = () => {
   const { currentUser } = useContext(UserContext);
   return (
-    <div className='flex gap-3'>
+    <div className='flex items-center gap-3'>
       <Navbar_Links_Link url='/phoenix_vision' title='Phoenix Vision' />
       {currentUser ? (
         <>
           <Navbar_Links_Link url='/phoenix_talk' title='Phoenix Talk' />
-          <Navbar_Links_Link url='/account' title='Account' />
+          <LogoutButton />
         </>
       ) : (
         <>

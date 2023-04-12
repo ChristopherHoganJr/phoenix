@@ -68,4 +68,7 @@ module.exports = {
       )
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
+  logout: (req, res) => {
+    res.clearCookie("usertoken").sendStatus(200);
+  },
 };
