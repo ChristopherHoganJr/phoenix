@@ -5,7 +5,7 @@ import Navbar from "./nav/Navbar";
 
 const Header = () => {
   return (
-    <header>
+    <header className='border-b-2'>
       <Navbar />
     </header>
   );

@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
 
 // components
-import PrimaryButton from "../components/ui/PrimaryButton";
+import SubmitButton from "../components/ui/SubmitButton";
 
 const Register_Page = () => {
+  const { setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -11,11 +16,25 @@ const Register_Page = () => {
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState("");
+
+  const RegisterUser = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/user/register", user, { withCredentials: true })
+      .then((res) => {
+        setCurrentUser(res.data.currentUser);
+        navigate("/");
+      })
+      .catch((error) => setErrors(error.response.data.error));
+  };
+
   return (
     <div>
       <h1>Register Page</h1>
       <form action=''>
         <div>
+          {errors ? <p>{errors}</p> : <></>}
           <label>Username:</label>
           <input
             type='text'
@@ -53,7 +72,7 @@ const Register_Page = () => {
             }
           />
         </div>
-        <PrimaryButton title='Sign up!' />
+        <SubmitButton title='Sign up!' submitFunction={RegisterUser} />
       </form>
     </div>
   );

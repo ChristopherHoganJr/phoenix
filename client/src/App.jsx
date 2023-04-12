@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 import "./App.css";
 
 // layouts
@@ -9,6 +10,8 @@ import Landing_Page from "./pages/Landing_Page";
 import PhoenixVision_Page from "./pages/PhoenixVision_Page";
 import Register_Page from "./pages/Register_Page";
 import Login_Page from "./pages/Login_Page";
+
+axios.defaults.baseURL = "http://localhost:8000";
 
 function App() {
   return (

@@ -60,4 +60,12 @@ module.exports = {
       })
       .json({ name: user.name, email: user.email });
   },
+  account: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id)
+      .then((user) =>
+        res.status(200).json({ username: user.username, email: user.email })
+      )
+      .catch((error) => res.status(400).json({ errors: "please log in" }));
+  },
 };
