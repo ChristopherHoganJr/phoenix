@@ -28,10 +28,11 @@ const Login_Page = () => {
   };
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <form action=''>
-        <div>
+    <section className='pt-5 px-4 flex flex-col gap-4'>
+      <h1 className='text-center'>Login Page</h1>
+      <img src='/imgs/loginImg.jpg' alt='' />
+      <form action='' className='flex flex-col gap-4'>
+        <div class='flex flex-col'>
           <label>Email:</label>
           <input
             type='email'
@@ -40,7 +41,7 @@ const Login_Page = () => {
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
-        <div>
+        <div class='flex flex-col'>
           <label>Password:</label>
           <input
             type='password'
@@ -51,7 +52,7 @@ const Login_Page = () => {
         </div>
         <SubmitButton title={"Login"} submitFunction={LoginUser} />
       </form>
-    </div>
+    </section>
   );
 };
 

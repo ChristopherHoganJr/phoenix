@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // components
 import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
 const MainLayout = () => {
   return (
@@ -11,6 +12,7 @@ const MainLayout = () => {
       <main className='max-w-7xl mx-auto'>
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 };
