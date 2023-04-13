@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // components
-import SubmitButton from "../components/ui/SubmitButton";
+import PostForm from "../components/ui/forms/PostForm";
+import General_Post from "../components/ui/posts/General_Post";
 
 const PhoenixTalk_Page = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState("");
+  const [allPosts, setAllPosts] = useState([]);
   const [errors, setErrors] = useState("");
 
   const submitPost = async (e) => {
@@ -25,18 +28,25 @@ const PhoenixTalk_Page = () => {
       .catch((error) => setErrors(error.response.data.error));
   };
 
+  useEffect(() => {
+    axios
+      .get("/api/posts", { withCredentials: true })
+      .then((res) => setAllPosts(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <section className='flex flex-col gap-4 mt-5 px-4'>
         <h1>Phoenix Talk</h1>
-        <form>
-          <textarea
-            className='border-2 border-black w-full h-28 p-2'
-            name='post'
-            value={post}
-            onChange={(e) => setPost(e.target.value)}></textarea>
-          <SubmitButton title={"Submit"} submitFunction={submitPost} />
-        </form>
+        <PostForm post={post} setPost={setPost} submitPost={submitPost} />
+        <div className='flex flex-col gap-4'>
+          {allPosts ? (
+            allPosts?.map((e, i) => <General_Post key={i} post={e} />)
+          ) : (
+            <></>
+          )}
+        </div>
       </section>
     </>
   );
