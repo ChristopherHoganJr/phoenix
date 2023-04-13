@@ -22,7 +22,7 @@ const Login_Page = () => {
       .post("/api/user/login", user, { withCredentials: true })
       .then((res) => {
         setCurrentUser(res.data.currentUser);
-        navigate("/");
+        navigate("/phoenix");
       })
       .catch((error) => setErrors(error.response.data.error));
   };
@@ -32,7 +32,7 @@ const Login_Page = () => {
       <h1 className='text-center'>Login Page</h1>
       <img src='/imgs/loginImg.jpg' alt='' />
       <form action='' className='flex flex-col gap-4'>
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Email:</label>
           <input
             type='email'
@@ -41,7 +41,7 @@ const Login_Page = () => {
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Password:</label>
           <input
             type='password'

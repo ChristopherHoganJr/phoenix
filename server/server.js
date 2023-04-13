@@ -21,6 +21,7 @@ require("./config/mongoose.config")(DB);
 
 // routes
 require("./routes/user.routes")(app);
+require("./routes/post.routes")(app);
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

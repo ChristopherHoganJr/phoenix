@@ -24,7 +24,7 @@ const Register_Page = () => {
       .post("/api/user/register", user, { withCredentials: true })
       .then((res) => {
         setCurrentUser(res.data.currentUser);
-        navigate("/");
+        navigate("/phoenix");
       })
       .catch((error) => setErrors(error.response.data.error));
   };
@@ -35,7 +35,7 @@ const Register_Page = () => {
       <img src='/imgs/registerImg.jpg' alt='' />
       <form action='' className='flex flex-col gap-4'>
         {errors ? <p>{errors}</p> : <></>}
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Username:</label>
           <input
             type='text'
@@ -44,7 +44,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, username: e.target.value })}
           />
         </div>
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Email:</label>
           <input
             type='email'
@@ -53,7 +53,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
         </div>
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Password:</label>
           <input
             type='password'
@@ -62,7 +62,7 @@ const Register_Page = () => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
         </div>
-        <div class='flex flex-col'>
+        <div className='flex flex-col'>
           <label>Confirm Password:</label>
           <input
             type='password'
