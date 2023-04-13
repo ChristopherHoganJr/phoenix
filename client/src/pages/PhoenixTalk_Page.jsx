@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +9,7 @@ import General_Post from "../components/ui/posts/General_Post";
 
 const PhoenixTalk_Page = () => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(UserContext);
   const [post, setPost] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [errors, setErrors] = useState("");
@@ -42,7 +44,9 @@ const PhoenixTalk_Page = () => {
         <PostForm post={post} setPost={setPost} submitPost={submitPost} />
         <div className='flex flex-col gap-4'>
           {allPosts ? (
-            allPosts?.map((e, i) => <General_Post key={i} post={e} />)
+            allPosts?.map((e, i) => (
+              <General_Post key={i} post={e} currentUser={currentUser} />
+            ))
           ) : (
             <></>
           )}

@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 
-const General_Post = ({ post }) => {
-  console.log(post.like);
+const General_Post = ({ post, currentUser }) => {
+  console.log(post);
 
   const LikePost = (e) => {
     e.preventDefault();
@@ -18,6 +18,14 @@ const General_Post = ({ post }) => {
       .put("/api/posts/dislike", post, { withCredentials: true })
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
+  };
+
+  const DeletePost = (e) => {
+    e.preventDefault();
+    axios
+      .delete(`/api/delete/${post._id}`, { withCredentials: true })
+      .then((res) => console.log(res.data))
+      .catch((error) => console.log(error));
   };
   return (
     <div className='border-2 border-black p-4 rounded-md'>
@@ -60,6 +68,11 @@ const General_Post = ({ post }) => {
             </svg>
           </button>
         </div>
+        {currentUser?.email === post.author.email ? (
+          <button onClick={(e) => DeletePost(e)}>Delete Post</button>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

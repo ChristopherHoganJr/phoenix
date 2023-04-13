@@ -89,4 +89,20 @@ module.exports = {
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
+  delete_post: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id)
+      .then((user) =>
+        Post.findById(req.params.post_id)
+          .then((post) => {
+            if (String(user._id) === String(post.author)) {
+              Post.findByIdAndDelete(req.params.post_id)
+                .then((result) => res.json(result))
+                .catch((error) => res.status(400).json(error));
+            }
+          })
+          .catch((error) => console.log(error))
+      )
+      .catch((error) => res.status(400).json({ errors: "please log in" }));
+  },
 };

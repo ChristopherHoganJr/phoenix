@@ -6,4 +6,5 @@ module.exports = (app) => {
   app.get("/api/posts", authenticate, Post.all_posts);
   app.put("/api/posts/like", authenticate, Post.like_post);
   app.put("/api/posts/dislike", authenticate, Post.dislike_post);
+  app.delete("/api/delete/:post_id", authenticate, Post.delete_post);
 };
