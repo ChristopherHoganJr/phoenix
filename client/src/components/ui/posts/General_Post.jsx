@@ -13,7 +13,7 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
   const LikePost = (e) => {
     e.preventDefault();
     axios
-      .put("/api/posts/like", post, { withCredentials: true })
+      .put("/api/posts/like", thisPost, { withCredentials: true })
       .then((res) => {
         thisPost.dislike.users = thisPost.dislike.users.filter(
           (user) => user !== res.data
