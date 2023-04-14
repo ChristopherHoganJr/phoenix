@@ -25,7 +25,20 @@ const PhoenixTalk_Page = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        let newPost = {
+          _id: res.data._id,
+          author: {
+            username: currentUser.username,
+          },
+          text: post,
+          like: {
+            users: [],
+          },
+          dislike: {
+            users: [],
+          },
+        };
+        setAllPosts([...allPosts, newPost]);
       })
       .catch((error) => setErrors(error.response.data.error));
   };
@@ -45,7 +58,14 @@ const PhoenixTalk_Page = () => {
         <div className='flex flex-col gap-4'>
           {allPosts ? (
             allPosts?.map((e, i) => (
-              <General_Post key={i} post={e} currentUser={currentUser} />
+              <General_Post
+                key={i}
+                idx={i}
+                post={e}
+                currentUser={currentUser}
+                allPosts={allPosts}
+                setAllPosts={setAllPosts}
+              />
             ))
           ) : (
             <></>

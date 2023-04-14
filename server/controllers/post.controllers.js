@@ -8,9 +8,11 @@ module.exports = {
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
     User.findById(decoded.id)
       .then((user) => {
-        Post.create({ author: user._id, text: req.body.text });
-        return res.status(200).json({ message: "post saved!" });
+        Post.create({ author: user._id, text: req.body.text }).then((post) =>
+          res.status(200).json(post)
+        );
       })
+
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
   all_posts: async (req, res) => {
@@ -50,7 +52,7 @@ module.exports = {
                   new: true,
                   runValidators: true,
                 }
-              ).then((updatedPost) => res.status(200).json(updatedPost));
+              ).then((updatedPost) => res.status(200).json(user._id));
           })
           .catch((error) =>
             res.status(400).json({ erros: "error updating like" })
@@ -81,7 +83,7 @@ module.exports = {
                   new: true,
                   runValidators: true,
                 }
-              ).then((updatedPost) => res.status(200).json(updatedPost));
+              ).then((updatedPost) => res.status(200).json(user._id));
           })
           .catch((error) =>
             res.status(400).json({ erros: "error updating like" })

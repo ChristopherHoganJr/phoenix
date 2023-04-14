@@ -1,14 +1,22 @@
 import React from "react";
 import axios from "axios";
 
-const General_Post = ({ post, currentUser }) => {
-  console.log(post);
+const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
+  let fullPostList = allPosts;
+  let thisPost = post;
 
   const LikePost = (e) => {
     e.preventDefault();
     axios
       .put("/api/posts/like", post, { withCredentials: true })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        thisPost.dislike.users = thisPost.dislike.users.filter(
+          (user) => user !== res.data
+        );
+        thisPost.like.users.push(res.data);
+        fullPostList[idx] = thisPost;
+        setAllPosts([...fullPostList]);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -16,7 +24,14 @@ const General_Post = ({ post, currentUser }) => {
     e.preventDefault();
     axios
       .put("/api/posts/dislike", post, { withCredentials: true })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        thisPost.like.users = thisPost.like.users.filter(
+          (user) => user !== res.data
+        );
+        thisPost.dislike.users.push(res.data);
+        fullPostList[idx] = thisPost;
+        setAllPosts([...fullPostList]);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -24,7 +39,10 @@ const General_Post = ({ post, currentUser }) => {
     e.preventDefault();
     axios
       .delete(`/api/delete/${post._id}`, { withCredentials: true })
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        let newPostArr = allPosts.filter((p) => p._id !== post._id);
+        setAllPosts(newPostArr);
+      })
       .catch((error) => console.log(error));
   };
   return (
@@ -33,8 +51,9 @@ const General_Post = ({ post, currentUser }) => {
       <p>{post.text}</p>
       <div className='flex justify-start gap-4'>
         <div className='flex justify-center gap-2 items-center border-2 border-black p-2'>
-          <p>{post.like.users.length}</p>
           <button onClick={(e) => LikePost(e)}>
+            <p>{thisPost.like.users.length}</p>
+
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -51,8 +70,9 @@ const General_Post = ({ post, currentUser }) => {
           </button>
         </div>
         <div className='flex justify-center gap-2 items-center border-2 border-black p-2'>
-          <p>{post.dislike.users.length}</p>
           <button onClick={(e) => DislikePost(e)}>
+            <p>{thisPost.dislike.users.length}</p>
+
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
