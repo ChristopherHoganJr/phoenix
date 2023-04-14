@@ -23,3 +23,6 @@
   <li>jsonwebtoken</li>
   <li>mongoose</li>
 </ul>
+
+<h3>Without Styling Preview</h3>
+<img src="screenshot.png" width="50%" />
