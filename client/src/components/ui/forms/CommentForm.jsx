@@ -29,6 +29,7 @@ const CommentForm = ({ post, currentUser }) => {
         setComments([
           ...comments,
           {
+            _id: res.data._id,
             author: {
               username: currentUser.username,
               _id: currentUser.id,
