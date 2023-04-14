@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import formatDistance from "date-fns/formatDistance";
 
 const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
   let fullPostList = allPosts;
@@ -47,11 +48,23 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
   };
   return (
     <div className='border-2 border-black p-4 rounded-md'>
-      <h2>{post.author.username}</h2>
-      <p>{post.text}</p>
-      <div className='flex justify-start gap-4'>
-        <div className='flex justify-center gap-2 items-center border-2 border-black p-2'>
-          <button onClick={(e) => LikePost(e)}>
+      <p className='text-sm'>
+        {thisPost.createdAt
+          ? `${formatDistance(new Date(post.createdAt), new Date())} ago`
+          : "just added"}
+      </p>
+      <h2 className='font-bold text-lg'>{post.author.username}</h2>
+      <p className='py-2 '>{post.text}</p>
+      <div className='flex justify-start gap-4 mt-3'>
+        <div
+          className={`${
+            thisPost.like.users.includes(currentUser.id)
+              ? "bg-green-200 border-green-600"
+              : "border-black"
+          } flex justify-center gap-2 items-center border-2  p-2`}>
+          <button
+            onClick={(e) => LikePost(e)}
+            className='flex flex-row-reverse gap-2'>
             <p>{thisPost.like.users.length}</p>
 
             <svg
@@ -69,8 +82,15 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
             </svg>
           </button>
         </div>
-        <div className='flex justify-center gap-2 items-center border-2 border-black p-2'>
-          <button onClick={(e) => DislikePost(e)}>
+        <div
+          className={`${
+            thisPost.dislike.users.includes(currentUser.id)
+              ? "bg-red-200 border-red-600"
+              : "border-black"
+          } flex justify-center gap-2 items-center border-2  p-2`}>
+          <button
+            onClick={(e) => DislikePost(e)}
+            className='flex flex-row-reverse gap-2'>
             <p>{thisPost.dislike.users.length}</p>
 
             <svg
@@ -88,7 +108,7 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
             </svg>
           </button>
         </div>
-        {currentUser?.email === post.author.email ? (
+        {currentUser?.id === post.author._id ? (
           <button onClick={(e) => DeletePost(e)}>Delete Post</button>
         ) : (
           <></>

@@ -29,6 +29,7 @@ const PhoenixTalk_Page = () => {
           _id: res.data._id,
           author: {
             username: currentUser.username,
+            _id: currentUser.id,
           },
           text: post,
           like: {
@@ -38,7 +39,9 @@ const PhoenixTalk_Page = () => {
             users: [],
           },
         };
+
         setAllPosts([...allPosts, newPost]);
+        setPost("");
       })
       .catch((error) => setErrors(error.response.data.error));
   };

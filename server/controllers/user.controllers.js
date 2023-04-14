@@ -64,7 +64,9 @@ module.exports = {
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
     User.findById(decoded.id)
       .then((user) =>
-        res.status(200).json({ username: user.username, email: user.email })
+        res
+          .status(200)
+          .json({ username: user.username, email: user.email, id: user._id })
       )
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
