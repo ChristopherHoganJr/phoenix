@@ -39,7 +39,6 @@ const PhoenixTalk_Page = () => {
             users: [],
           },
         };
-
         setAllPosts([...allPosts, newPost]);
         setPost("");
       })

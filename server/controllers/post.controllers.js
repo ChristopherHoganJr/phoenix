@@ -9,7 +9,7 @@ module.exports = {
     User.findById(decoded.id)
       .then((user) => {
         Post.create({ author: user._id, text: req.body.text }).then((post) =>
-          res.status(200).json(post)
+          res.status(200).json({ message: "post saved!" })
         );
       })
 

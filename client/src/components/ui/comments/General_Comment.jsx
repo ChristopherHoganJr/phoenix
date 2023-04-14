@@ -1,75 +1,112 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import formatDistance from "date-fns/formatDistance";
 
-// components
-import CommentForm from "../forms/CommentForm";
-
-const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
-  const [viewComments, setViewComments] = useState(false);
-  let fullPostList = allPosts;
-  let thisPost = post;
-
-  const LikePost = (e) => {
+const General_Comment = ({
+  author,
+  createdAt,
+  text,
+  like,
+  dislike,
+  currentUser,
+  _id,
+  comments,
+  setComments,
+  idx,
+}) => {
+  const LikeComment = (e) => {
     e.preventDefault();
     axios
-      .put("/api/posts/like", post, { withCredentials: true })
+      .put(
+        `/api/comment/like/${_id}`,
+        {
+          author,
+          createdAt,
+          text,
+          dislike,
+          like,
+          _id,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
-        thisPost.dislike.users = thisPost.dislike.users.filter(
-          (user) => user !== res.data
-        );
-        thisPost.like.users.push(res.data);
-        fullPostList[idx] = thisPost;
-        setAllPosts([...fullPostList]);
+        dislike.users = dislike.users.filter((user) => user !== res.data);
+        like.users.push(res.data);
+        setComments[idx] = {
+          author,
+          createdAt,
+          text,
+          dislike,
+          like,
+          _id,
+        };
+        setComments([...comments]);
       })
       .catch((err) => console.log(err));
   };
 
-  const DislikePost = (e) => {
+  const DislikeComment = (e) => {
     e.preventDefault();
     axios
-      .put("/api/posts/dislike", post, { withCredentials: true })
+      .put(
+        `/api/comment/dislike/${_id}`,
+        {
+          author,
+          createdAt,
+          text,
+          dislike,
+          like,
+          _id,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
-        thisPost.like.users = thisPost.like.users.filter(
-          (user) => user !== res.data
-        );
-        thisPost.dislike.users.push(res.data);
-        fullPostList[idx] = thisPost;
-        setAllPosts([...fullPostList]);
+        like.users = like.users.filter((user) => user !== res.data);
+        dislike.users.push(res.data);
+        setComments[idx] = {
+          author,
+          createdAt,
+          text,
+          dislike,
+          like,
+          _id,
+        };
+        setComments([...comments]);
       })
       .catch((err) => console.log(err));
   };
 
-  const DeletePost = (e) => {
+  const DeleteComment = (e) => {
     e.preventDefault();
     axios
-      .delete(`/api/delete/${post._id}`, { withCredentials: true })
+      .delete(`/api/comment/${_id}`, { withCredentials: true })
       .then((res) => {
-        let newPostArr = allPosts.filter((p) => p._id !== post._id);
-        setAllPosts(newPostArr);
+        let newCommentArr = comments.filter((c) => c._id !== _id);
+        setComments(newCommentArr);
       })
       .catch((error) => console.log(error));
   };
+
   return (
-    <div className='border-2 border-black p-4 rounded-md'>
+    <div className='border-2 border-black p-4'>
       <p className='text-sm'>
-        {thisPost.createdAt
-          ? `${formatDistance(new Date(post.createdAt), new Date())} ago`
+        {createdAt
+          ? `${formatDistance(new Date(createdAt), new Date())} ago`
           : "just added"}
       </p>
-      <h2 className='font-bold text-lg'>{post.author.username}</h2>
-      <p className='py-2 '>{post.text}</p>
+      <h3 className='font-bold'>{author.username}</h3>
+      <p>{text}</p>
       <div className='flex justify-start gap-4 mt-3'>
         <div
           className={`${
-            thisPost.like.users.includes(currentUser.id)
+            like.users.includes(currentUser.id)
               ? "bg-green-200 border-green-600"
               : "border-black"
           } flex justify-center gap-2 items-center border-2  p-2`}>
           <button
-            onClick={(e) => LikePost(e)}
+            onClick={(e) => LikeComment(e)}
             className='flex flex-row-reverse gap-2'>
-            <p>{thisPost.like.users.length}</p>
+            <p>{like.users.length}</p>
 
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -88,14 +125,14 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
         </div>
         <div
           className={`${
-            thisPost.dislike.users.includes(currentUser.id)
+            dislike.users.includes(currentUser.id)
               ? "bg-red-200 border-red-600"
               : "border-black"
           } flex justify-center gap-2 items-center border-2  p-2`}>
           <button
-            onClick={(e) => DislikePost(e)}
+            onClick={(e) => DislikeComment(e)}
             className='flex flex-row-reverse gap-2'>
-            <p>{thisPost.dislike.users.length}</p>
+            <p>{dislike.users.length}</p>
 
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -112,21 +149,14 @@ const General_Post = ({ post, currentUser, allPosts, setAllPosts, idx }) => {
             </svg>
           </button>
         </div>
-        {currentUser?.id === post.author._id ? (
-          <button onClick={(e) => DeletePost(e)}>Delete Post</button>
+        {currentUser?.id === author._id ? (
+          <button onClick={(e) => DeleteComment(e)}>Delete Comment</button>
         ) : (
           <></>
-        )}
-      </div>
-      <div>
-        {viewComments ? (
-          <CommentForm post={post} currentUser={currentUser} />
-        ) : (
-          <button onClick={() => setViewComments(true)}>See Comments?</button>
         )}
       </div>
     </div>
   );
 };
 
-export default General_Post;
+export default General_Comment;
