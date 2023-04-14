@@ -4,8 +4,12 @@ const PhoenixVision_Page = () => {
   return (
     <section className='flex flex-col gap-4 mt-5 px-4'>
       <h1>Project Phoenix</h1>
-      <div className='flex flex-col gap-4'>
-        <img src='/imgs/car_back_001.jpg' alt='' />
+      <div className='flex flex-col gap-4 md:flex-row justify-center items-center'>
+        <img
+          src='/imgs/car_back_001.jpg'
+          alt=''
+          className='w-full h-auto max-w-md md:order-2'
+        />
         <p className='text-center'>
           Project Phoenix is a revolutionary social media platform designed
           specifically for the motorsports community. Our vision is to bring car
@@ -16,8 +20,12 @@ const PhoenixVision_Page = () => {
           destination for all your automotive needs.
         </p>
       </div>
-      <div className='flex flex-col gap-4'>
-        <img src='/imgs/car_front_001.jpg' alt='' />
+      <div className='flex flex-col gap-4 md:flex-row justify-center items-center'>
+        <img
+          src='/imgs/car_front_001.jpg'
+          alt=''
+          className='w-full h-auto max-w-md'
+        />
         <p className='text-center'>
           Our platform is designed to be user-friendly and intuitive, making it
           easy for members to create and share content, connect with other
@@ -28,8 +36,12 @@ const PhoenixVision_Page = () => {
           one-stop-shop for all things motorsports.
         </p>
       </div>
-      <div className='flex flex-col gap-4'>
-        <img src='/imgs/car_front_003.jpg' alt='' />
+      <div className='flex flex-col gap-4 md:flex-row justify-center items-center'>
+        <img
+          src='/imgs/car_front_003.jpg'
+          alt=''
+          className='w-full h-auto max-w-md md:order-2'
+        />
         <p className='text-center'>
           At Project Phoenix, we believe that the car community is more than
           just a hobby or a passion – it's a way of life. That's why we're

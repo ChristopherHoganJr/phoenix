@@ -54,10 +54,10 @@ const PhoenixTalk_Page = () => {
 
   return (
     <>
-      <section className='flex flex-col gap-4 mt-5 px-4'>
+      <section className='flex flex-col gap-4 mt-5 px-4 items-center justify-center'>
         <h1>Phoenix Talk</h1>
         <PostForm post={post} setPost={setPost} submitPost={submitPost} />
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 max-w-md w-full'>
           {allPosts ? (
             allPosts?.map((e, i) => (
               <General_Post

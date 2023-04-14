@@ -27,7 +27,6 @@ module.exports = {
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
   like_post: async (req, res) => {
-    console.log(req.body);
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
     User.findById(decoded.id)
       .then((user) => {

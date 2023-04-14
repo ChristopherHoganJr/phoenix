@@ -11,7 +11,7 @@ const Navbar_Links = () => {
     <div className='flex items-center gap-3'>
       {currentUser ? (
         <>
-          <Navbar_Links_Link url='/phoenix' title='placeholder' />
+          <Navbar_Links_Link url='/phoenix' title='Phoenix Talk' />
           <LogoutButton />
         </>
       ) : (

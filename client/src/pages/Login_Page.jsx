@@ -30,28 +30,36 @@ const Login_Page = () => {
   return (
     <section className='pt-5 px-4 flex flex-col gap-4'>
       <h1 className='text-center'>Login Page</h1>
-      <img src='/imgs/loginImg.jpg' alt='' />
-      <form action='' className='flex flex-col gap-4'>
-        <div className='flex flex-col'>
-          <label>Email:</label>
-          <input
-            type='email'
-            name='email'
-            value={user.email}
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label>Password:</label>
-          <input
-            type='password'
-            name='password'
-            value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-          />
-        </div>
-        <SubmitButton title={"Login"} submitFunction={LoginUser} />
-      </form>
+      <div className='flex flex-col items-center md:flex-row justify-center gap-4'>
+        <img
+          src='/imgs/loginImg.jpg'
+          alt=''
+          className='w-full h-auto max-w-md'
+        />
+        <form
+          action=''
+          className='flex flex-col justify-center gap-4 w-full max-w-md'>
+          <div className='flex flex-col'>
+            <label>Email:</label>
+            <input
+              type='email'
+              name='email'
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label>Password:</label>
+            <input
+              type='password'
+              name='password'
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+            />
+          </div>
+          <SubmitButton title={"Login"} submitFunction={LoginUser} />
+        </form>
+      </div>
     </section>
   );
 };

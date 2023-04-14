@@ -5,7 +5,7 @@ import SubmitButton from "../SubmitButton";
 
 const PostForm = ({ post, setPost, submitPost }) => {
   return (
-    <form>
+    <form className='max-w-md w-full'>
       <label>Add post</label>
       <textarea
         className='border-2 border-black w-full h-28 p-2'
