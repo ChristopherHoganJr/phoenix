@@ -78,6 +78,29 @@ module.exports = {
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
+  unlike_comment: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id).then((user) => {
+      Comment.findById(req.params.comment_id).then((comment) => {
+        if (comment.like.users.includes(user._id)) {
+          comment.like.users.splice(comment.like.users.indexOf(user._id), 1);
+          Comment.updateOne(
+            { _id: comment._id },
+            {
+              author: comment.author,
+              text: comment.text,
+              like: comment.like,
+              dislike: comment.dislike,
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
+          ).then((updatedComment) => res.status(200).json(user._id));
+        }
+      });
+    });
+  },
   dislike_comment: async (req, res) => {
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
     User.findById(decoded.id)
@@ -104,6 +127,32 @@ module.exports = {
         });
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
+  },
+  undislike_comment: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id).then((user) => {
+      Comment.findById(req.params.comment_id).then((comment) => {
+        if (comment.dislike.users.includes(user._id)) {
+          comment.dislike.users.splice(
+            comment.dislike.users.indexOf(user._id),
+            1
+          );
+          Comment.updateOne(
+            { _id: comment._id },
+            {
+              author: comment.author,
+              text: comment.text,
+              like: comment.like,
+              dislike: comment.dislike,
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
+          ).then((updatedComment) => res.status(200).json(user._id));
+        }
+      });
+    });
   },
   delete_comment: async (req, res) => {
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);

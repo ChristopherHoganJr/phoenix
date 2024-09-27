@@ -39,7 +39,7 @@ const PhoenixTalk_Page = () => {
             users: [],
           },
         };
-        setAllPosts([...allPosts, newPost]);
+        setAllPosts([newPost, ...allPosts]);
         setPost("");
       })
       .catch((error) => setErrors(error.response.data.error));
@@ -54,26 +54,70 @@ const PhoenixTalk_Page = () => {
 
   return (
     <>
-      <section className='flex flex-col gap-4 mt-5 px-4 items-center justify-center'>
+      <div className="flex flex-col gap-4 mt-5 px-4 items-center justify-center max-w-7xl mx-auto">
         <h1>Phoenix Talk</h1>
-        <PostForm post={post} setPost={setPost} submitPost={submitPost} />
-        <div className='flex flex-col gap-4 max-w-md w-full'>
-          {allPosts ? (
-            allPosts?.map((e, i) => (
-              <General_Post
-                key={i}
-                idx={i}
-                post={e}
-                currentUser={currentUser}
-                allPosts={allPosts}
-                setAllPosts={setAllPosts}
-              />
-            ))
-          ) : (
-            <></>
-          )}
+        <div className="grid grid-cols-3 w-full">
+          <section className="mr-2 talk-container">
+            <h2 className="text-center">Your Posts</h2>
+            <PostForm post={post} setPost={setPost} submitPost={submitPost} />
+            {allPosts ? (
+              allPosts
+                .filter((e) => e.author._id === currentUser.id)
+                .map((e, i) => (
+                  <General_Post
+                    key={i}
+                    idx={i}
+                    post={e}
+                    currentUser={currentUser}
+                    allPosts={allPosts}
+                    setAllPosts={setAllPosts}
+                  />
+                ))
+            ) : (
+              <p>You have not posted anything yet.</p>
+            )}
+          </section>
+          <section className="talk-container">
+            <h2 className="text-center">All Posts</h2>
+
+            <div className="flex flex-col gap-4 max-w-md w-full">
+              {allPosts ? (
+                allPosts?.map((e, i) => (
+                  <General_Post
+                    key={i}
+                    idx={i}
+                    post={e}
+                    currentUser={currentUser}
+                    allPosts={allPosts}
+                    setAllPosts={setAllPosts}
+                  />
+                ))
+              ) : (
+                <></>
+              )}
+            </div>
+          </section>
+          <section className=" ml-2 talk-container">
+            <h2 className="text-center">Liked Posts</h2>
+            {allPosts ? (
+              allPosts
+                .filter((e) => e.like.users.includes(currentUser.id))
+                .map((e, i) => (
+                  <General_Post
+                    key={i}
+                    idx={i}
+                    post={e}
+                    currentUser={currentUser}
+                    allPosts={allPosts}
+                    setAllPosts={setAllPosts}
+                  />
+                ))
+            ) : (
+              <p>You have not liked any posts yet.</p>
+            )}
+          </section>
         </div>
-      </section>
+      </div>
     </>
   );
 };

@@ -20,8 +20,11 @@ module.exports = {
     User.findById(decoded.id)
       .then((user) => {
         Post.find()
+          .sort({ createdAt: -1 })
           .populate("author")
-          .then((posts) => res.status(200).json(posts))
+          .then((posts) => {
+            res.status(200).json(posts);
+          })
           .catch((error) => status(400).json({ erros: "error pulling posts" }));
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
@@ -60,6 +63,33 @@ module.exports = {
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },
+  unlike_post: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id)
+      .then((user) => {
+        Post.findById(req.body._id).then((post) => {
+          if (post.like.users.includes(user._id)) {
+            post.like.users.splice(post.like.users.indexOf(user._id), 1);
+            Post.updateOne(
+              {
+                _id: post._id,
+              },
+              {
+                author: post.author,
+                text: post.text,
+                like: post.like,
+                dislike: post.dislike,
+              },
+              {
+                new: true,
+                runValidators: true,
+              }
+            ).then((updatedPost) => res.status(200).json(user._id));
+          }
+        });
+      })
+      .catch((error) => res.status(400).json({ errors: "please log in" }));
+  },
   dislike_post: async (req, res) => {
     let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
     User.findById(decoded.id)
@@ -88,6 +118,33 @@ module.exports = {
           .catch((error) =>
             res.status(400).json({ erros: "error updating like" })
           );
+      })
+      .catch((error) => res.status(400).json({ errors: "please log in" }));
+  },
+  undislike_post: async (req, res) => {
+    let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+    User.findById(decoded.id)
+      .then((user) => {
+        Post.findById(req.body._id).then((post) => {
+          if (post.dislike.users.includes(user._id)) {
+            post.dislike.users.splice(post.dislike.users.indexOf(user._id), 1);
+            Post.updateOne(
+              {
+                _id: post._id,
+              },
+              {
+                author: post.author,
+                text: post.text,
+                like: post.like,
+                dislike: post.dislike,
+              },
+              {
+                new: true,
+                runValidators: true,
+              }
+            ).then((updatedPost) => res.status(200).json(user._id));
+          }
+        });
       })
       .catch((error) => res.status(400).json({ errors: "please log in" }));
   },

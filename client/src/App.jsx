@@ -6,9 +6,11 @@ import "./App.css";
 import MainLayout from "./layouts/MainLayout";
 import LoggedInLayout from "./layouts/LoggedInLayout";
 
-// pages
+// pages - main
 import Landing_Page from "./pages/Landing_Page";
 import PhoenixVision_Page from "./pages/PhoenixVision_Page";
+
+// pages - user
 import Register_Page from "./pages/Register_Page";
 import Login_Page from "./pages/Login_Page";
 

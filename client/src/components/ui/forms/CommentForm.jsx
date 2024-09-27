@@ -48,17 +48,18 @@ const CommentForm = ({ post, currentUser }) => {
   };
   console.log(comments.length);
   return (
-    <div>
+    <div className="">
       <form>
-        <label>Add comment</label>
+        <label className="">Add comment</label>
         <textarea
-          className='border-2 border-black w-full h-28 p-2'
-          name='post'
+          className="border-2 border-black w-full h-28 p-2 mb-2 mt-2"
+          name="post"
           value={comment}
-          onChange={(e) => setComment(e.target.value)}></textarea>
-        <SubmitButton title={"Submit"} submitFunction={submitComment} />
+          onChange={(e) => setComment(e.target.value)}
+        ></textarea>
+        <SubmitButton title={"Respond"} submitFunction={submitComment} />
       </form>
-      <div className='border-2 border-black p-3 mt-2 flex flex-col gap-2'>
+      <div className=" border-black mt-4 flex flex-col gap-2">
         {comments.length > 0 ? (
           comments.map((e, i) => (
             <General_Comment
